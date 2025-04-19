@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyric Hunt | Find Your Song Lyrics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+</head>
+<body>
+    <div class="particles-container" id="particles-js"></div>
+    
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <i class="fas fa-music logo-icon pulse"></i>
+                <h1>Lyric<span>Hunt</span></h1>
+            </div>
+            <p class="tagline">Discover the words behind your favorite melodies</p>
+        </header>
+
+        <main>
+            <div class="search-card">
+                <form id="lyrics-form">
+                    <div class="input-group">
+                        <div class="input-container">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="artist" name="artist" placeholder="Artist Name" required>
+                        </div>
+                        <div class="input-container">
+                            <i class="fas fa-music input-icon"></i>
+                            <input type="text" id="title" name="title" placeholder="Song Title" required>
+                        </div>
+                    </div>
+                    <button type="submit" id="search-btn">
+                        <i class="fas fa-search"></i> Find Lyrics
+                    </button>
+                </form>
+            </div>
+            
+            <div class="results-card" id="results-section">
+                <div id="loading" class="hidden">
+                    <div class="loader"></div>
+                    <span>Searching for lyrics...</span>
+                </div>
+                
+                <div id="error-message" class="hidden">
+                    <i class="fas fa-exclamation-circle error-icon"></i>
+                    <span id="error-text"></span>
+                </div>
+                
+                <div id="lyrics-result" class="hidden">
+                    <div class="lyrics-header">
+                        <i class="fas fa-headphones"></i>
+                        <h2 id="song-header"></h2>
+                        
+                        <div class="mode-toggle">
+                            <button id="normal-mode" class="mode-btn active">
+                                <i class="fas fa-align-left"></i> Normal
+                            </button>
+                            <button id="karaoke-mode" class="mode-btn">
+                                <i class="fas fa-microphone"></i> Karaoke
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="normal-view">
+                        <pre id="lyrics-content"></pre>
+                    </div>
+                    
+                    <div id="karaoke-view" class="hidden">
+                        <div class="visualizer-container">
+                            <div class="equalizer">
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="karaoke-controls">
+                            <div class="main-controls">
+                                <button id="karaoke-play" class="control-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button id="karaoke-pause" class="control-btn hidden">
+                                    <i class="fas fa-pause"></i>
+                                </button>
+                                <button id="karaoke-restart" class="control-btn">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="speed-control">
+                                <label for="speed-slider">Speed</label>
+                                <input type="range" id="speed-slider" min="0.5" max="2" step="0.1" value="1">
+                                <span id="speed-value">1x</span>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-bar-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="karaoke-progress"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="karaoke-container">
+                            <div class="lyrics-scroll">
+                                <div class="previous-line" id="previous-line"></div>
+                                <div class="current-line" id="current-line">
+                                    <span class="highlight"></span>
+                                    <span class="rest"></span>
+                                </div>
+                                <div class="next-line" id="next-line"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="karaoke-info">
+                            <div class="song-timer">
+                                <span id="current-time">00:00</span>
+                                <span class="separator">/</span>
+                                <span id="total-time">00:00</span>
+                            </div>
+                            <div class="lyrics-count">
+                                Line <span id="current-line-number">0</span> of <span id="total-lines">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+                <p>Powered by <a href="https://lyricsovh.docs.apiary.io/" target="_blank">LyricsOVH API</a></p>
+                <p class="copyright">&copy; <span id="current-year"></span> LyricHunt</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
