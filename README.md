@@ -1,5 +1,7 @@
 # LyricHunt 🎵
 
+## Live Preview:https://fthsrbst.github.io/LyricHunt/
+
 A stunning, elegant web application that allows users to find and enjoy song lyrics with a beautiful visual experience. The application fetches lyrics from the LyricsOVH API and offers both standard viewing and an interactive karaoke mode with smooth animations.
 
 ## ✨ Features
